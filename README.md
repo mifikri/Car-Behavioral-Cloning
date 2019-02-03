@@ -8,7 +8,7 @@
 
 In this project, I use a neural network to clone car driving behavior.  It is a supervised regression problem between the car steering angles and the road images in front of a car.  
 
-Those images were taken from three different camera angles (from the center, the left and the right of the car).  
+Those images were taken from three different camera angles (the center, the left and the right of the car).  
 
 The network is based on [The NVIDIA model](https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/), which has been proven to work in this problem domain.
 
@@ -39,9 +39,6 @@ python drive.py model.h5
 ```
 
 ### To train the model
-
-You'll need the data folder which contains the training images.
-
 ```python
 python model.py
 ```
@@ -144,22 +141,9 @@ I splitted the images into train and validation set in order to measure the perf
 
 As for training, 
 
-- I used mean squared error for the loss function to measure how close the model predicts to the given steering angle for each image.
-- I used Adam optimizer for optimization with learning rate of 1.0e-4 which is smaller than the default of 1.0e-3.  The default value was too big and made the validation loss stop improving too soon.
+- I used mean squared error (MSE) for the loss function to measure how close the model predicts to the given steering angle for each image.
+- I used Adam optimizer
 - I used ModelCheckpoint from Keras to save the model only if the validation loss is improved which is checked for every epoch.
-
-### The Lake Side Track
-
-As there can be unlimited number of images augmented, I set the samples per epoch to 20,000.  I tried from 1 to 200 epochs but I found 5-10 epochs is good enough to produce a well trained model for the lake side track.  The batch size of 40 was chosen as that is the maximum size which does not cause out of memory error on my Mac with NVIDIA GeForce GT 650M 1024 MB.
-
-### The Jungle Track
-
-This track was later released in the new simulator by Udacity and replaced the old mountain track.  It's much more difficuilt than the lake side track and the old mountain track.
-
-I used the simulator to generate training data by doing 3 to 4 rounds.  Also, added several recovery scenarios to handle tricky curves and slopes.
-
-I felt that the validation loss is not a great indication of how well it drives.  So, I tried the last several models to see which one drives the best.  For this, I set the save_best_only to False (use `-o false` for model.py), and I used 50 epcohs (Use `-n 50`).
-
 
 ## References
 - NVIDIA model: https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/
